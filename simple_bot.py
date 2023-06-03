@@ -1,5 +1,5 @@
 """
-A simple trading bot 
+A simple trading bot
 """
 import os
 import time
