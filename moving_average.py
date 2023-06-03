@@ -1,10 +1,14 @@
-"""A moving average bot"""
+"""A moving average trading bot"""
 import time
+from datetime import datetime, time as dt_time
+from dotenv import load_dotenv
 from alpaca_trade_api import REST
 import numpy as np
 
-ALPACA_API_KEY = "<YOUR ALPACA API KEY>"
-ALPACA_SECRET_KEY = "<YOUR ALPACA SECRET KEY>"
+load_dotenv()
+
+ALPACA_API_KEY = os.getenv('API_KEY')
+ALPACA_SECRET_KEY = os.getenv('SECRET_KEY')
 SYMBOLS = ['AAPL', 'MSFT', 'GOOGL']  # List of symbols to trade
 
 api = REST(ALPACA_API_KEY, ALPACA_SECRET_KEY)
@@ -30,7 +34,19 @@ def check_trading_condition(symbol):
 
     return latest_signal
 
+def is_trading_hours():
+    now = datetime.now().time()
+    start_time = dt_time(9, 30)  # Trading starts at 9:30 AM
+    end_time = dt_time(16)  # Trading ends at 4:00 PM
+
+    return start_time <= now <= end_time
+
 while True:
+    if not is_trading_hours():
+        print("Outside trading hours")
+        time.sleep(60)  # Sleep for 60 seconds before checking again
+        continue
+
     for symbol in SYMBOLS:
         try:
             trading_condition = check_trading_condition(symbol)
