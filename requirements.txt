@@ -1,3 +1,4 @@
+alpaca-py
 alpaca-trade-api==1.2.3
 numpy==1.21.0
 python-dotenv==0.17.1

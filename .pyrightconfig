@@ -1,0 +1,5 @@
+{
+  "exclude": [
+    "bots/moving_average.py"
+  ]
+}
